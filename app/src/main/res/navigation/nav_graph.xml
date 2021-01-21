@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/characters"
-        android:name="com.ahmedobied.ricknmorty.ui.characters.CharactersFragment"
+        android:name="com.ahmedobied.ricknmorty.ui.characters.CharacterFragment"
         android:label="@string/characters"
-        tools:layout="@layout/characters_fragment" />
+        tools:layout="@layout/character_fragment" />
     <fragment
         android:id="@+id/locations"
         android:name="com.ahmedobied.ricknmorty.ui.locations.LocationFragment"
