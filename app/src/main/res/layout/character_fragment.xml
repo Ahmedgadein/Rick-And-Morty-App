@@ -6,11 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.characters.CharacterFragment">
 
-    <TextView
-        android:id="@+id/characterTextView"
-        android:gravity="center"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_characters"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/characters" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

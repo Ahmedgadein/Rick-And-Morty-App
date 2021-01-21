@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.ahmedobied.ricknmorty.data.db.dao.CharacterDao
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
 
-@Database(version = 1, entities = [CharacterEntity::class])
+@Database(version = 1, exportSchema = false, entities = [CharacterEntity::class])
 abstract class RickMortyDatabase : RoomDatabase() {
     abstract fun getCharacterDao(): CharacterDao
 

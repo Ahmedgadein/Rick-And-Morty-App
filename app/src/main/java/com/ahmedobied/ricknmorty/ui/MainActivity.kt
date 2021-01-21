@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RickMortyDatabase(this)
         setContentView(R.layout.activity_main)
         setupUI();
     }
