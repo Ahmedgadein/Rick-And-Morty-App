@@ -1,9 +1,11 @@
 package com.ahmedobied.ricknmorty.data.network
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ahmedobied.ricknmorty.data.network.models.CharacterResponse
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse
+import com.ahmedobied.ricknmorty.internal.NoNetworkException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,7 +22,11 @@ class CharacterNetworkDataSourceImpl(
         get() = _characters
 
     override suspend fun fetchCharacters(page: Int) {
-        val result = networkService.getCharacters(page)
-        _characters.postValue(result)
+        try {
+            val result = networkService.getCharacters(page)
+            _characters.postValue(result)
+        } catch (exception: NoNetworkException) {
+            Log.e("Connectivity", "No Internet Connection: ", exception)
+        }
     }
 }
