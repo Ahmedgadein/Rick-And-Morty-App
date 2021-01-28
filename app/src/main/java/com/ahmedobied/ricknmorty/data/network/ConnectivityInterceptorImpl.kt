@@ -1,6 +1,6 @@
 package com.ahmedobied.ricknmorty.data.network
 
-import android.content.Context
+import a ndroid.content.Context
 import android.net.ConnectivityManager
 import com.ahmedobied.ricknmorty.internal.NoNetworkException
 import okhttp3.Interceptor
@@ -18,7 +18,7 @@ class ConnectivityInterceptorImpl(
         return  chain.proceed(chain.request())
     }
 
-    fun isConnected(): Boolean {
+    private fun isConnected(): Boolean {
         val connectivityManager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return  connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected
     }

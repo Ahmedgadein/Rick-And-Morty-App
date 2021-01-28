@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmedobied.ricknmorty.R
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_character_list.view.*
 
 class CharactersAdapter(
@@ -27,8 +28,11 @@ class CharactersAdapter(
         fun bind(character: CharacterEntity) {
             currentCharacter = character
             itemView.apply {
+                Glide.with(itemView.context).load(character.imageUrl).into(itemView.character_image)
                 character_name.text = character.name
-                character_isAlive.text = character.species
+                character_species.text = character.species
+                character_gender.text = character.gender
+                character_alive.text = character.status
             }
         }
 

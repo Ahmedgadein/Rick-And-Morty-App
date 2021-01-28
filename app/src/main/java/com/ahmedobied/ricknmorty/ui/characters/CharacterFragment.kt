@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ahmedobied.ricknmorty.R
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
 import kotlinx.android.synthetic.main.character_fragment.*
@@ -43,21 +43,33 @@ class CharacterFragment : Fragment(), DIAware {
             onCharacterClicked(it)
         }
 
+        val gridLayoutManager = GridLayoutManager(this@CharacterFragment.requireContext(), 2)
+
         recyclerview_characters.apply {
-            layoutManager = LinearLayoutManager(this@CharacterFragment.requireContext())
+            layoutManager = gridLayoutManager
             adapter = charactersAdapter
         }
+
+
+        recyclerview_characters.setOnScrollListener(object :
+            PaginationScrollListener(gridLayoutManager) {
+            override fun loadMoreItems() {
+                character_progress_bar.visibility = View.VISIBLE
+                viewModel.fetchNextPage()
+            }
+        })
 
         lifecycleScope.launch {
             viewModel.characters.await().observe(viewLifecycleOwner, Observer {
                 if (it == null) return@Observer
+
+                character_progress_bar.visibility = View.GONE
                 charactersAdapter.updateCharacters(it)
             })
         }
-
     }
 
-    private fun onCharacterClicked(character: CharacterEntity): Unit {
+    private fun onCharacterClicked(character: CharacterEntity) {
         Toast.makeText(this.requireContext(), "Clicked ${character.name}", Toast.LENGTH_SHORT)
             .show()
     }

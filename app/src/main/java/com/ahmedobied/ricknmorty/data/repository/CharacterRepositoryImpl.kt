@@ -10,6 +10,7 @@ import com.ahmedobied.ricknmorty.data.db.entities.LastFetchEntity
 import com.ahmedobied.ricknmorty.data.mapper.CharacterMapper
 import com.ahmedobied.ricknmorty.data.network.CharacterNetworkDataSource
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse
+import com.ahmedobied.ricknmorty.internal.getPage
 import kotlinx.coroutines.*
 import org.threeten.bp.ZonedDateTime
 
@@ -19,49 +20,61 @@ class CharacterRepositoryImpl(
     private val lastFetchDao: LastFetchDao
 ) :
     CharacterRepository {
+    private var nextPage: Int = 2
+
     init {
         characterNetworkDataSource.downloadedCharacters.observeForever(Observer {
             if (it != null) persistCharacters(it)
         })
+
+        lastFetchDao.getNextPage().observeForever(Observer {
+            if (it != null) nextPage = it
+        })
     }
+
 
     private fun persistCharacters(charactersResponse: MultipleCharacterResponse) {
         GlobalScope.launch(Dispatchers.IO) {
             val characters = charactersResponse.characters.map {
                 CharacterMapper.characterResponseToEntity(it)
             }
+            val nextPage = getPage(charactersResponse.info.next) ?: 2
             characterDao.insert(characters)
-            lastFetchDao.insert(LastFetchEntity(lastFetch = ZonedDateTime.now()))
+            lastFetchDao.insert(
+                LastFetchEntity(
+                    lastFetchTime = ZonedDateTime.now(),
+                    nextPage = nextPage
+                )
+            )
         }
     }
 
-    override suspend fun getCharacter(id: Int): LiveData<CharacterEntity> {
-//        fetchCharacter(id)
+    override suspend fun getAllCharacters(): LiveData<List<CharacterEntity>> {
         return withContext(Dispatchers.IO) {
-            return@withContext characterDao.getCharacter(id)
+            initCharacters()
+            return@withContext characterDao.getAllCharacters()
         }
     }
 
-    override suspend fun getAllCharacters(page: Int): LiveData<List<CharacterEntity>> {
-            return withContext(Dispatchers.IO) {
-                initCharacters(page)
-                return@withContext characterDao.getAllCharacters()
-            }
-    }
-
-    private suspend fun initCharacters(page: Int){
-        if(shouldFetch())
-            fetchCharacters(page)
-        Log.i("FetchNeeded", "Fetched: ${shouldFetch()}")
+    private suspend fun initCharacters() {
+        if (shouldFetch())
+            fetchCharacters()
+        Log.i("FetchNeeded", "Fetched From Network: ${shouldFetch()}")
     }
 
     private suspend fun shouldFetch(): Boolean {
         return withContext(Dispatchers.IO) {
-            val dayAgo =  ZonedDateTime.now().minusDays(1)
-            val lastFetched = lastFetchDao.getLastFetch()
-            if (lastFetched == null) return@withContext true else return@withContext lastFetched.lastFetch.isBefore(dayAgo)
+            val dayAgo = ZonedDateTime.now().minusDays(1)
 
+            val lastFetched = lastFetchDao.getLastFetch() ?: return@withContext true
+            val lastFetchTime = lastFetched.lastFetchTime
+
+            return@withContext lastFetchTime.isBefore(dayAgo)
         }
+    }
+
+    override suspend fun fetchNextPage() {
+        fetchCharacters(nextPage)
     }
 
     private suspend fun fetchCharacters(page: Int = 1) {
@@ -69,9 +82,4 @@ class CharacterRepositoryImpl(
             characterNetworkDataSource.fetchCharacters(page)
         }
     }
-//    private fun fetchCharacter(id: Int){
-//        GlobalScope.launch(Dispatchers.IO){
-//            characterNetworkDataSource.fetchCharacter(id)
-//        }
-//    }
 }

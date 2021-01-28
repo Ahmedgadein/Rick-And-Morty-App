@@ -1,5 +1,6 @@
 package com.ahmedobied.ricknmorty.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,5 +14,8 @@ interface LastFetchDao {
     fun insert(lastFetch: LastFetchEntity)
 
     @Query("select * from last_fetch_table where id = $LAST_FETCH_ID")
-    fun getLastFetch(): LastFetchEntity
+    fun getLastFetch(): LastFetchEntity?
+
+    @Query("select nextPage from last_fetch_table")
+    fun getNextPage():LiveData<Int>
 }

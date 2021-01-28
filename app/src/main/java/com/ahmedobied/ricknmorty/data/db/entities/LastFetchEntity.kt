@@ -10,5 +10,6 @@ const val LAST_FETCH_ID = 0
 data class LastFetchEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int = LAST_FETCH_ID,
-    val lastFetch: ZonedDateTime
+    val lastFetchTime: ZonedDateTime,
+    val nextPage: Int
 )
