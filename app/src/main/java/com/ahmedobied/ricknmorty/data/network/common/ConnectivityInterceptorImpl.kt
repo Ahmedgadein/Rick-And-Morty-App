@@ -1,7 +1,8 @@
-package com.ahmedobied.ricknmorty.data.network
+package com.ahmedobied.ricknmorty.data.network.common
 
-import a ndroid.content.Context
+import android.content.Context
 import android.net.ConnectivityManager
+import com.ahmedobied.ricknmorty.data.network.common.ConnectivityInterceptor
 import com.ahmedobied.ricknmorty.internal.NoNetworkException
 import okhttp3.Interceptor
 import okhttp3.Response

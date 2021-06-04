@@ -1,4 +1,4 @@
-package com.ahmedobied.ricknmorty.ui.characters
+package com.ahmedobied.ricknmorty.generic.listener
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView

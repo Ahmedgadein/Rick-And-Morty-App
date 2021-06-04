@@ -1,4 +1,4 @@
-package com.ahmedobied.ricknmorty.data.network
+package com.ahmedobied.ricknmorty.data.network.common
 
 import com.ahmedobied.ricknmorty.data.network.models.CharacterResponse
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse

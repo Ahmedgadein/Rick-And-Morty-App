@@ -1,0 +1,3 @@
+package com.ahmedobied.ricknmorty.generic.listener
+
+interface BaseRecyclerListener

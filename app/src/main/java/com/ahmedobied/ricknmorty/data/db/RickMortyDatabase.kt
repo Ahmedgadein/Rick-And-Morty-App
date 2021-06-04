@@ -8,14 +8,17 @@ import androidx.room.TypeConverters
 import com.ahmedobied.ricknmorty.data.db.converters.ZonedDateTimeConverter
 import com.ahmedobied.ricknmorty.data.db.dao.CharacterDao
 import com.ahmedobied.ricknmorty.data.db.dao.LastFetchDao
+import com.ahmedobied.ricknmorty.data.db.dao.LocationDao
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
 import com.ahmedobied.ricknmorty.data.db.entities.LastFetchEntity
+import com.ahmedobied.ricknmorty.data.db.entities.LocationEntity
 
-@Database(version = 1, exportSchema = false, entities = [CharacterEntity::class, LastFetchEntity::class])
+@Database(version = 1, exportSchema = false, entities = [CharacterEntity::class,LocationEntity::class, LastFetchEntity::class])
 @TypeConverters(ZonedDateTimeConverter::class)
 abstract class RickMortyDatabase : RoomDatabase() {
     abstract fun getLastFetchDao():LastFetchDao
     abstract fun getCharacterDao(): CharacterDao
+    abstract fun getLocationDao(): LocationDao
 
     companion object {
         @Volatile

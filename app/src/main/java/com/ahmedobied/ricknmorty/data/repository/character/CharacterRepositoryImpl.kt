@@ -1,4 +1,4 @@
-package com.ahmedobied.ricknmorty.data.repository
+package com.ahmedobied.ricknmorty.data.repository.character
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -57,18 +57,17 @@ class CharacterRepositoryImpl(
     }
 
     private suspend fun initCharacters() {
-        if (shouldFetch())
+        val shouldFetch = shouldFetch()
+        if (shouldFetch)
             fetchCharacters()
-        Log.i("FetchNeeded", "Fetched From Network: ${shouldFetch()}")
+        Log.i("FetchNeeded", "Fetched From Network: $shouldFetch")
     }
 
     private suspend fun shouldFetch(): Boolean {
         return withContext(Dispatchers.IO) {
             val dayAgo = ZonedDateTime.now().minusDays(1)
-
             val lastFetched = lastFetchDao.getLastFetch() ?: return@withContext true
             val lastFetchTime = lastFetched.lastFetchTime
-
             return@withContext lastFetchTime.isBefore(dayAgo)
         }
     }

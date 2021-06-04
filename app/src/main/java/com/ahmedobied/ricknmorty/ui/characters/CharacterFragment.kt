@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ahmedobied.ricknmorty.R
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
+import com.ahmedobied.ricknmorty.generic.listener.OnRecyclerObjectClickListener
+import com.ahmedobied.ricknmorty.generic.listener.PaginationScrollListener
 import kotlinx.android.synthetic.main.character_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
@@ -21,8 +23,8 @@ import org.kodein.di.instance
 
 class CharacterFragment : Fragment(), DIAware {
     private lateinit var viewModel: CharacterViewModel
-
     override val di by di()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,8 +41,8 @@ class CharacterFragment : Fragment(), DIAware {
     }
 
     private fun setupUI() {
-        val charactersAdapter = CharactersAdapter {
-            onCharacterClicked(it)
+        val charactersAdapter = CharactersAdapter().apply {
+            setListener(listener)
         }
 
         val gridLayoutManager = GridLayoutManager(this@CharacterFragment.requireContext(), 2)
@@ -64,7 +66,7 @@ class CharacterFragment : Fragment(), DIAware {
                 if (it == null) return@Observer
 
                 character_progress_bar.visibility = View.GONE
-                charactersAdapter.updateCharacters(it)
+                charactersAdapter.updateItems(it)
             })
         }
     }
@@ -74,4 +76,10 @@ class CharacterFragment : Fragment(), DIAware {
             .show()
     }
 
+    private val listener = object:OnRecyclerObjectClickListener<CharacterEntity>{
+        override fun onItemClicked(item: CharacterEntity) {
+            onCharacterClicked(item)
+        }
+
+    }
 }

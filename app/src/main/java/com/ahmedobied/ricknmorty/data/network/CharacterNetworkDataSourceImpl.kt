@@ -3,13 +3,9 @@ package com.ahmedobied.ricknmorty.data.network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ahmedobied.ricknmorty.data.network.models.CharacterResponse
+import com.ahmedobied.ricknmorty.data.network.common.RickAndMortyApiService
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse
 import com.ahmedobied.ricknmorty.internal.NoNetworkException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CharacterNetworkDataSourceImpl(
     private val networkService: RickAndMortyApiService

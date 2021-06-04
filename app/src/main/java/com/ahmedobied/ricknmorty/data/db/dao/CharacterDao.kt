@@ -15,7 +15,7 @@ interface CharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(characters: List<CharacterEntity>)
 
-    @Query("select * from characters_table where id == :id ")
+    @Query("select * from characte  rs_table where id == :id ")
     fun getCharacter(id:Int): LiveData<CharacterEntity>
 
     @Query("select * from characters_table")
