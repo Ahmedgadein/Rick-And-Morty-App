@@ -2,7 +2,6 @@ package com.ahmedobied.ricknmorty.data.mapper
 
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
 import com.ahmedobied.ricknmorty.data.network.models.CharacterResponse
-import com.ahmedobied.ricknmorty.data.network.models.Location
 
 object CharacterMapper {
     fun characterResponseToEntity(characterResponse: CharacterResponse) = CharacterEntity(
@@ -11,9 +10,9 @@ object CharacterMapper {
 //        episodesUrls = characterResponse.episode,
         gender = characterResponse.gender,
         imageUrl = characterResponse.image,
-        location = characterResponse.location,
+        location = LocationMapper.locationResponseToEntity(characterResponse.location),
         name = characterResponse.name,
-        origin = characterResponse.origin,
+        origin = LocationMapper.locationResponseToEntity(characterResponse.origin),
         species = characterResponse.species,
         status = characterResponse.status,
         type = characterResponse.type

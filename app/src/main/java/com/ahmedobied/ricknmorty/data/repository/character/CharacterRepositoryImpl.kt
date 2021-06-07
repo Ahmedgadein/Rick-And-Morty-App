@@ -8,7 +8,7 @@ import com.ahmedobied.ricknmorty.data.db.dao.LastFetchDao
 import com.ahmedobied.ricknmorty.data.db.entities.CharacterEntity
 import com.ahmedobied.ricknmorty.data.db.entities.LastFetchEntity
 import com.ahmedobied.ricknmorty.data.mapper.CharacterMapper
-import com.ahmedobied.ricknmorty.data.network.CharacterNetworkDataSource
+import com.ahmedobied.ricknmorty.data.network.datasource.character.CharacterNetworkDataSource
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse
 import com.ahmedobied.ricknmorty.internal.getPage
 import kotlinx.coroutines.*

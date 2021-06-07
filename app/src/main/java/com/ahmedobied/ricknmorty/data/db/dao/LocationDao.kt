@@ -18,8 +18,8 @@ interface LocationDao {
     fun insert(locations:List<LocationEntity>)
 
     @Query("select * from locations_table where id == :id")
-    fun getCharacter(id:Int):LiveData<CharacterEntity>
+    fun getLocation(id:Int):LiveData<LocationEntity>
 
     @Query("select * from locations_table")
-    fun getAllCharacters():LiveData<List<LocationEntity>>
+    fun getAllLocations():LiveData<List<LocationEntity>>
 }

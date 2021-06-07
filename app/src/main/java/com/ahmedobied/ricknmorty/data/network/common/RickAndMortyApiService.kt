@@ -1,7 +1,9 @@
 package com.ahmedobied.ricknmorty.data.network.common
 
 import com.ahmedobied.ricknmorty.data.network.models.CharacterResponse
+import com.ahmedobied.ricknmorty.data.network.models.LocationResponse
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse
+import com.ahmedobied.ricknmorty.data.network.models.MultipleLocationResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,6 +18,12 @@ interface RickAndMortyApiService {
 
     @GET("character")
     suspend fun getCharacters(@Query("page") page: Int?): MultipleCharacterResponse
+
+    @GET("location/{id}")
+    suspend fun getLocation(@Path("id") id: Int):LocationResponse
+
+    @GET("location")
+    suspend fun getLocations(@Query("page") page: Int?):MultipleLocationResponse
 
     companion object {
         operator fun invoke(

@@ -2,10 +2,11 @@ package com.ahmedobied.ricknmorty
 
 import android.app.Application
 import com.ahmedobied.ricknmorty.data.db.RickMortyDatabase
-import com.ahmedobied.ricknmorty.data.network.*
 import com.ahmedobied.ricknmorty.data.network.common.ConnectivityInterceptor
 import com.ahmedobied.ricknmorty.data.network.common.ConnectivityInterceptorImpl
 import com.ahmedobied.ricknmorty.data.network.common.RickAndMortyApiService
+import com.ahmedobied.ricknmorty.data.network.datasource.character.CharacterNetworkDataSource
+import com.ahmedobied.ricknmorty.data.network.datasource.character.CharacterNetworkDataSourceImpl
 import com.ahmedobied.ricknmorty.data.repository.character.CharacterRepository
 import com.ahmedobied.ricknmorty.data.repository.character.CharacterRepositoryImpl
 import com.ahmedobied.ricknmorty.ui.characters.CharacterViewModelFactory
@@ -29,7 +30,11 @@ class RickMortyApplication : Application(), DIAware {
                 instance()
             )
         }
-        bind<CharacterNetworkDataSource>() with singleton { CharacterNetworkDataSourceImpl(instance()) }
+        bind<CharacterNetworkDataSource>() with singleton {
+            CharacterNetworkDataSourceImpl(
+                instance()
+            )
+        }
         bind<CharacterRepository>() with singleton {
             CharacterRepositoryImpl(
                 instance(),

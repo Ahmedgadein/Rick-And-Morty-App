@@ -1,9 +1,10 @@
-package com.ahmedobied.ricknmorty.data.network
+package com.ahmedobied.ricknmorty.data.network.datasource.character
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ahmedobied.ricknmorty.data.network.common.RickAndMortyApiService
+import com.ahmedobied.ricknmorty.data.network.datasource.character.CharacterNetworkDataSource
 import com.ahmedobied.ricknmorty.data.network.models.MultipleCharacterResponse
 import com.ahmedobied.ricknmorty.internal.NoNetworkException
 

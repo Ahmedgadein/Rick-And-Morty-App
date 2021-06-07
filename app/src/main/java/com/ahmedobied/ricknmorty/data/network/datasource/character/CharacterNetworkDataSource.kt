@@ -1,4 +1,4 @@
-package com.ahmedobied.ricknmorty.data.network
+package com.ahmedobied.ricknmorty.data.network.datasource.character
 
 import androidx.lifecycle.LiveData
 import com.ahmedobied.ricknmorty.data.network.models.CharacterResponse
