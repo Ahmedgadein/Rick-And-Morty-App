@@ -10,9 +10,9 @@ object CharacterMapper {
 //        episodesUrls = characterResponse.episode,
         gender = characterResponse.gender,
         imageUrl = characterResponse.image,
-        location = LocationMapper.locationResponseToEntity(characterResponse.location),
+        location = characterResponse.location,
         name = characterResponse.name,
-        origin = LocationMapper.locationResponseToEntity(characterResponse.origin),
+        origin = characterResponse.location,
         species = characterResponse.species,
         status = characterResponse.status,
         type = characterResponse.type

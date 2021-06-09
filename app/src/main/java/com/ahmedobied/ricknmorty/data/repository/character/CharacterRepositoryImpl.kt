@@ -60,7 +60,7 @@ class CharacterRepositoryImpl(
         val shouldFetch = shouldFetch()
         if (shouldFetch)
             fetchCharacters()
-        Log.i("FetchNeeded", "Fetched From Network: $shouldFetch")
+        Log.i("FetchNeeded", "Fetched Characters From Network: $shouldFetch")
     }
 
     private suspend fun shouldFetch(): Boolean {

@@ -80,6 +80,5 @@ class CharacterFragment : Fragment(), DIAware {
         override fun onItemClicked(item: CharacterEntity) {
             onCharacterClicked(item)
         }
-
     }
 }

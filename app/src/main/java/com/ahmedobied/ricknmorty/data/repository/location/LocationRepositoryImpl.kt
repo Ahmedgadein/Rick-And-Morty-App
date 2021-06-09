@@ -1,3 +1,4 @@
+import android.util.Log
 import com.ahmedobied.ricknmorty.data.db.dao.LastFetchDao
 import com.ahmedobied.ricknmorty.data.db.entities.LastFetchEntity
 import com.ahmedobied.ricknmorty.data.repository.location.LocationRepository
@@ -59,15 +60,17 @@ class LocationRepositoryImpl(
     private suspend fun initLocations(){
         GlobalScope.launch(Dispatchers.IO) {
             val shouldFetch = shouldFetch()
-            if(shouldFetch)
+            if(true)
                 fetchLocations()
+            Log.i("FetchNeeded", "Fetched Locations from network $shouldFetch")
         }
     }
     private suspend fun shouldFetch():Boolean{
         return withContext(Dispatchers.IO){
-            val lastFetched = lastFetchDao.getLastFetch()?.lastFetchTime
-            val oneDayAgo = ZonedDateTime.now().minusDays(1)
-            return@withContext lastFetched?.isBefore(oneDayAgo) ?: true
+            val dayAgo = ZonedDateTime.now().minusDays(1)
+            val lastFetched = lastFetchDao.getLastFetch() ?: return@withContext true
+            val lastFetchTime = lastFetched.lastFetchTime
+            return@withContext lastFetchTime.isBefore(dayAgo)
         }
 
     }

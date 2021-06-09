@@ -12,14 +12,15 @@ class LocationNetworkDataSourceImpl(
 ) : LocationNetworkDataSource {
     private val _downloadedLocations: MutableLiveData<MultipleLocationResponse> = MutableLiveData()
 
-    override val downloadedLocations: LiveData<MultipleLocationResponse> = _downloadedLocations
+    override val downloadedLocations: LiveData<MultipleLocationResponse>
+        get() = _downloadedLocations
 
     override suspend fun fetchLocation(page: Int?) {
         try {
             val result = networkService.getLocations(page)
             _downloadedLocations.postValue(result)
         } catch (exception: NoNetworkException) {
-            Log.e("Connectivity", "No Network Connection",exception)
+            Log.e("Connectivity", "No Network Connection", exception)
         }
     }
 }
