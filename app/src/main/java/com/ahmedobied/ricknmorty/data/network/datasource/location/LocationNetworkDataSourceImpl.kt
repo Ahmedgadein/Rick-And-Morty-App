@@ -15,7 +15,7 @@ class LocationNetworkDataSourceImpl(
     override val downloadedLocations: LiveData<MultipleLocationResponse>
         get() = _downloadedLocations
 
-    override suspend fun fetchLocation(page: Int?) {
+    override suspend fun fetchLocation(page: Int) {
         try {
             val result = networkService.getLocations(page)
             _downloadedLocations.postValue(result)

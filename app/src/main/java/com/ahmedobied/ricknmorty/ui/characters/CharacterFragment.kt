@@ -76,7 +76,7 @@ class CharacterFragment : Fragment(), DIAware {
             .show()
     }
 
-    private val listener = object:OnRecyclerObjectClickListener<CharacterEntity>{
+    private val listener = object : OnRecyclerObjectClickListener<CharacterEntity> {
         override fun onItemClicked(item: CharacterEntity) {
             onCharacterClicked(item)
         }

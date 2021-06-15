@@ -8,12 +8,17 @@ import com.ahmedobied.ricknmorty.data.network.common.ConnectivityInterceptorImpl
 import com.ahmedobied.ricknmorty.data.network.common.RickAndMortyApiService
 import com.ahmedobied.ricknmorty.data.network.datasource.character.CharacterNetworkDataSource
 import com.ahmedobied.ricknmorty.data.network.datasource.character.CharacterNetworkDataSourceImpl
+import com.ahmedobied.ricknmorty.data.network.datasource.episode.EpisodeNetworkDataSource
+import com.ahmedobied.ricknmorty.data.network.datasource.episode.EpisodeNetworkDataSourceImpl
 import com.ahmedobied.ricknmorty.data.network.datasource.location.LocationNetworkDataSource
 import com.ahmedobied.ricknmorty.data.network.datasource.location.LocationNetworkDataSourceImpl
 import com.ahmedobied.ricknmorty.data.repository.character.CharacterRepository
 import com.ahmedobied.ricknmorty.data.repository.character.CharacterRepositoryImpl
+import com.ahmedobied.ricknmorty.data.repository.episode.EpisodeRepository
+import com.ahmedobied.ricknmorty.data.repository.episode.EpisodeRepositoryImpl
 import com.ahmedobied.ricknmorty.data.repository.location.LocationRepository
 import com.ahmedobied.ricknmorty.ui.characters.CharacterViewModelFactory
+import com.ahmedobied.ricknmorty.ui.episodes.EpisodeViewModelFactory
 import com.ahmedobied.ricknmorty.ui.locations.LocationViewModelFactory
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.*
@@ -26,6 +31,7 @@ class RickMortyApplication : Application(), DIAware {
         bind() from singleton { instance<RickMortyDatabase>().getCharacterDao() }
         bind() from singleton { instance<RickMortyDatabase>().getLastFetchDao() }
         bind() from singleton { instance<RickMortyDatabase>().getLocationDao() }
+        bind() from singleton { instance<RickMortyDatabase>().getEpisodeDao() }
         bind<ConnectivityInterceptor>() with singleton {
             ConnectivityInterceptorImpl(
                 instance()
@@ -36,6 +42,7 @@ class RickMortyApplication : Application(), DIAware {
                 instance()
             )
         }
+
         bind<CharacterNetworkDataSource>() with singleton {
             CharacterNetworkDataSourceImpl(
                 instance()
@@ -46,20 +53,24 @@ class RickMortyApplication : Application(), DIAware {
                 instance()
             )
         }
-        bind<CharacterRepository>() with singleton {
-            CharacterRepositoryImpl(
-                instance(),
-                instance(),
+
+        bind<EpisodeNetworkDataSource>() with singleton {
+            EpisodeNetworkDataSourceImpl(
                 instance()
             )
         }
-        bind<LocationRepository>() with singleton {
-            LocationRepositoryImpl(
-                instance(), instance(), instance()
-            )
+
+        bind<CharacterRepository>() with singleton {
+            CharacterRepositoryImpl(instance(), instance())
         }
+        bind<LocationRepository>() with singleton {
+            LocationRepositoryImpl(instance(), instance())
+        }
+        bind<EpisodeRepository>() with singleton { EpisodeRepositoryImpl(instance(), instance()) }
+
         bind() from provider { CharacterViewModelFactory(instance()) }
         bind() from provider { LocationViewModelFactory(instance()) }
+        bind() from provider { EpisodeViewModelFactory(instance()) }
     }
 
     override fun onCreate() {

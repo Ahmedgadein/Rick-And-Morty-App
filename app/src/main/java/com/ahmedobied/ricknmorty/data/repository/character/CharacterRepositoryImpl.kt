@@ -16,20 +16,15 @@ import org.threeten.bp.ZonedDateTime
 
 class CharacterRepositoryImpl(
     private val characterNetworkDataSource: CharacterNetworkDataSource,
-    private val characterDao: CharacterDao,
-    private val lastFetchDao: LastFetchDao
+    private val characterDao: CharacterDao
 ) :
     CharacterRepository {
-    private var nextPage: Int = 2
 
     init {
         characterNetworkDataSource.downloadedCharacters.observeForever(Observer {
             if (it != null) persistCharacters(it)
         })
 
-        lastFetchDao.getNextPage().observeForever(Observer {
-            if (it != null) nextPage = it
-        })
     }
 
 
@@ -40,12 +35,6 @@ class CharacterRepositoryImpl(
             }
             val nextPage = getPage(charactersResponse.info.next) ?: 2
             characterDao.insert(characters)
-            lastFetchDao.insert(
-                LastFetchEntity(
-                    lastFetchTime = ZonedDateTime.now(),
-                    nextPage = nextPage
-                )
-            )
         }
     }
 
@@ -57,23 +46,12 @@ class CharacterRepositoryImpl(
     }
 
     private suspend fun initCharacters() {
-        val shouldFetch = shouldFetch()
-        if (shouldFetch)
-            fetchCharacters()
-        Log.i("FetchNeeded", "Fetched Characters From Network: $shouldFetch")
+        fetchCharacters()
     }
 
-    private suspend fun shouldFetch(): Boolean {
-        return withContext(Dispatchers.IO) {
-            val dayAgo = ZonedDateTime.now().minusDays(1)
-            val lastFetched = lastFetchDao.getLastFetch() ?: return@withContext true
-            val lastFetchTime = lastFetched.lastFetchTime
-            return@withContext lastFetchTime.isBefore(dayAgo)
-        }
-    }
 
     override suspend fun fetchNextPage() {
-        fetchCharacters(nextPage)
+//        fetchCharacters(nextPage)
     }
 
     private suspend fun fetchCharacters(page: Int = 1) {

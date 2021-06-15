@@ -35,11 +35,12 @@ class LocationFragment : Fragment(), DIAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val factory:LocationViewModelFactory by instance()
-        viewModel = ViewModelProvider(this,factory).get(LocationViewModel::class.java)
+        val factory: LocationViewModelFactory by instance()
+        viewModel = ViewModelProvider(this, factory).get(LocationViewModel::class.java)
         setupUI()
     }
-    private fun setupUI(){
+
+    private fun setupUI() {
         val locationAdapter = LocationAdapter().apply {
             setListener(listener)
         }
@@ -58,13 +59,14 @@ class LocationFragment : Fragment(), DIAware {
         }
     }
 
-    private val listener:OnRecyclerObjectClickListener<LocationEntity> = object :OnRecyclerObjectClickListener<LocationEntity>{
-        override fun onItemClicked(item: LocationEntity) {
-            onLocationClicked(item)
+    private val listener: OnRecyclerObjectClickListener<LocationEntity> =
+        object : OnRecyclerObjectClickListener<LocationEntity> {
+            override fun onItemClicked(item: LocationEntity) {
+                onLocationClicked(item)
+            }
         }
-    }
 
-    private fun onLocationClicked(location:LocationEntity){
-        Toast.makeText(context,"Clicked location ${location.name}",Toast.LENGTH_SHORT).show()
+    private fun onLocationClicked(location: LocationEntity) {
+        Toast.makeText(context, "Clicked location ${location.name}", Toast.LENGTH_SHORT).show()
     }
 }
